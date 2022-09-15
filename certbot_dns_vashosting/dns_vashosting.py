@@ -5,6 +5,10 @@ from typing import Any
 from typing import Callable
 from typing import Optional
 
+import zope.interface
+
+from certbot.interfaces import IAuthenticator, IPluginFactory
+
 import requests
 
 from certbot import errors
@@ -14,6 +18,8 @@ from certbot.plugins.dns_common import CredentialsConfiguration
 logger = logging.getLogger(__name__)
 
 
+@zope.interface.implementer(IAuthenticator)
+@zope.interface.provider(IPluginFactory)
 class Authenticator(dns_common.DNSAuthenticator):
     description = "Obtain certificates using a DNS TXT record (if you are using Vashosting.cz " \
                   "vps centrum REST API for DNS). "
@@ -31,8 +37,8 @@ class Authenticator(dns_common.DNSAuthenticator):
 
     def more_info(self) -> str:
         return (
-            "This plugin configures a DNS TXT record to respond to a dns-01 challenge using "
-            + "the Vas-hosting.cz vps centrum Remote REST API."
+                "This plugin configures a DNS TXT record to respond to a dns-01 challenge using "
+                + "the Vas-hosting.cz vps centrum Remote REST API."
         )
 
     def _setup_credentials(self):
@@ -126,7 +132,7 @@ class _VasHostingRestApiClient(object):
                 return
             else:
                 logger.info("update {0}".format(record["id"]))
-                self._delete_txt_record(domain, record["id"]) # has to delete, because of api
+                self._delete_txt_record(domain, record["id"])  # has to delete, because of api
                 self._update_txt_record(
                     domain, record_name, record_content, record_ttl
                 )
@@ -159,7 +165,7 @@ class _VasHostingRestApiClient(object):
         self._api_request("dns-add-record", data)
 
     def _update_txt_record(
-        self, domain, record_name, record_content, record_ttl
+            self, domain, record_name, record_content, record_ttl
     ):
         o_record_name = record_name
         record_name = record_name.replace("." + domain, "")
@@ -187,10 +193,10 @@ class _VasHostingRestApiClient(object):
         for entry in zone_data.values():
             logger.info(entry)
             if (
-                entry["record"] == record_name
-                and entry["type"] == "TXT"
+                    entry["record"] == record_name
+                    and entry["type"] == "TXT"
             ):
-                value = entry["value"] # type: str
+                value = entry["value"]  # type: str
                 if value.startswith("\""):
                     value = value.replace("\"", "")
 
