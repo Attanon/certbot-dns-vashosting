@@ -20,8 +20,8 @@ if not os.environ.get('SNAP_BUILD'):
         # We specify the minimum acme and certbot version as the current plugin
         # version for simplicity. See
         # https://github.com/certbot/certbot/issues/8761 for more info.
-        f'acme>={version}',
-        f'certbot>={version}',
+        'acme>=0.29.0',
+        'certbot>=0.31.0',
     ])
 elif 'bdist_wheel' in sys.argv[1:]:
     raise RuntimeError('Unset SNAP_BUILD when building wheels '
