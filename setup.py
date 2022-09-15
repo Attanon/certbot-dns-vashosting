@@ -42,7 +42,7 @@ setup(
     author="Jakub Vrchota",
     author_email="jamesvradio@gmail.com",
     license="Apache License 2.0",
-    python_requires=">=3.7",
+    python_requires=">=2.7.16",
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: Plugins",
