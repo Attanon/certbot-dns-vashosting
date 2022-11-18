@@ -92,6 +92,7 @@ class _VasHostingRestApiClient(object):
         resp = self.session.post(url, json=data, headers=headers)
         logger.info("API Request to URL: %s", url)
         logger.info("Data: %s", data)
+        logger.info("Headers: %s", headers)
         if resp.status_code != 200:
             raise errors.PluginError(
                 "HTTP Error during login {0} - {1}".format(resp.status_code, resp.content)
@@ -160,6 +161,7 @@ class _VasHostingRestApiClient(object):
                 self._delete_txt_record(domain, record["id"])
 
     def _insert_txt_record(self, domain, record_name, record_content, record_ttl):
+        record_name = record_name.replace(domain, "")
         data = {"domain": domain, 'record': record_name, 'value': record_content, 'type': "TXT"}
         logger.info("insert with data: %s", data)
         self._api_request("dns-add-record", data)
