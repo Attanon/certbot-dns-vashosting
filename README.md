@@ -24,5 +24,5 @@ certbot certonly \
         --expand --renew-by-default \
 		--certbot-dns-vashosting:dns-vh \
 		--certbot-dns-vashosting:dns-vh-credentials ~/vas-hosting.ini \
-        -d "*.vas-server.cz
+        -d "*.vas-server.cz"
 ```
