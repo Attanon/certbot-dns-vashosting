@@ -18,6 +18,7 @@ poetry.lock
 /.vagrant
 
 tags
+dist/*
 
 # editor temporary files
 *~
