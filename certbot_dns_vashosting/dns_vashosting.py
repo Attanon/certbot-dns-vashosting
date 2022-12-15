@@ -141,6 +141,9 @@ class _VasHostingRestApiClient(object):
             logger.info("insert new txt record")
             self._insert_txt_record(domain, record_name, record_content, record_ttl)
 
+    def prepare_record_name(self, domain, record_name):
+        return record_name.replace("." + domain, "")
+
     def del_txt_record(self, domain, record_name, record_content, record_ttl):
         """
         Delete a TXT record using the supplied information.
@@ -161,7 +164,7 @@ class _VasHostingRestApiClient(object):
                 self._delete_txt_record(domain, record["id"])
 
     def _insert_txt_record(self, domain, record_name, record_content, record_ttl):
-        record_name = record_name.replace(domain, "")
+        record_name = self.prepare_record_name(domain, record_name)
         data = {"domain": domain, 'record': record_name, 'value': record_content, 'type': "TXT"}
         logger.info("insert with data: %s", data)
         self._api_request("dns-add-record", data)
@@ -170,7 +173,7 @@ class _VasHostingRestApiClient(object):
             self, domain, record_name, record_content, record_ttl
     ):
         o_record_name = record_name
-        record_name = record_name.replace("." + domain, "")
+        record_name = self.prepare_record_name(domain, record_name)
         data = {"domain": domain, 'record': record_name, 'value': record_content, 'type': "TXT"}
         logger.info("update with data: %s", data)
         self._api_request("dns-add-record", data)
