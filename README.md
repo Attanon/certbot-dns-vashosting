@@ -1,7 +1,7 @@
 # Instalace
 
 ```bash
-pip3 install https://github.com/Attanon/certbot-dns-vashosting/releases/download/0.0.3/certbot-dns-vashosting-0.0.3.tar.gz
+pip3 install https://github.com/Attanon/certbot-dns-vashosting/releases/download/0.0.4/certbot-dns-vashosting-0.0.4.tar.gz
 ```
 
 Oveřit že je nainstalováno
